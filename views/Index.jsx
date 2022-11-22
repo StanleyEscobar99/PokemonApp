@@ -13,19 +13,25 @@ class Index extends React.Component {
         return (
             <div style={myStyle}>
                 <h1>See All The Pokemon!</h1>
-
                 <ul>
-                        {
-                            pokemon.map((eachPokemon, i) => {
-                                return (
-                                    <li key={i}>
-                                        <a href={`/pokemon/${i}`}>{eachPokemon.name[0].toUpperCase() + eachPokemon.name.slice(1)}</a>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul>
-            
+                    {
+                    pokemon.map((character, i) => {
+                        let characterName = character.name
+                        return (
+                      <li>
+                        {/* key = {i} */}
+                        The{' '}
+                        <a href={`/pokemon/${i}`}>
+                        {/* charAt(0).toUpperCase() = allow us to capitalize the first letter of the word */}
+                   {
+                   characterName.charAt(0).toUpperCase() + characterName.slice(1).toLowerCase()
+                   }
+                        </a>
+                      </li>
+                        )
+                    })
+                    }
+                </ul>
             </div>
         )
     }
