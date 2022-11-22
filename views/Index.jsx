@@ -19,10 +19,7 @@ class Index extends React.Component {
                         let characterName = character.name
                         return (
                       <li>
-                        {/* key = {i} */}
-                        The{' '}
                         <a href={`/pokemon/${i}`}>
-                        {/* charAt(0).toUpperCase() = allow us to capitalize the first letter of the word */}
                    {
                    characterName.charAt(0).toUpperCase() + characterName.slice(1).toLowerCase()
                    }
