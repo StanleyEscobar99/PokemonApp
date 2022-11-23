@@ -8,25 +8,21 @@ const myStyle = {
 
 class Index extends React.Component {
     render() {
-        const { pokemon } = this.props;    // destructure the pokemon array
-
+        const { pokemon } = this.props
         return (
             <div style={myStyle}>
                 <h1>See All The Pokemon!</h1>
                 <ul>
                     {
-                    pokemon.map((character, i) => {
-                        let characterName = character.name
-                        return (
-                      <li>
-                        <a href={`/pokemon/${i}`}>
-                   {
-                   characterName.charAt(0).toUpperCase() + characterName.slice(1).toLowerCase()
-                   }
-                        </a>
-                      </li>
-                        )
-                    })
+                        pokemon.map((nomekop, i) => {
+                            let characterName = character.name
+                            return (
+                                <ul key = {i}>
+                                <a href={`/pokemon/${nomekop._id}`}>{nomekop.name[0].toUpperCase() + nomekop.name.slice(1)}</a>
+                                <br />
+                            </ul>
+                            )
+                        })
                     }
                 </ul>
             </div>
