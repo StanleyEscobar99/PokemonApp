@@ -11,12 +11,11 @@ class Show extends React.Component {
         const { name, img } = this.props.pokemon
         return (
             <div>
-                <head>
-                    <h1>Gotta Catch 'Em All</h1>
-                </head>
+                <h1>Gotta Catch 'Em All</h1>
                 <h3><a href={`/pokemon/`}>Back To Index</a></h3>
                 <h2>The Pokemon is {name}</h2>
-                <img src={img + ".jpg"}></img>
+                <img src={img} alt={name} style={{ width: "300px" }} />
+                <p>IMG URL: {img}</p>
                 <a href={`/pokemon/`}>BACK</a>
             </div>
         );

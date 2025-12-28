@@ -3,18 +3,22 @@ const express = require("express")
 const app = express()
 const PORT = 3000
 const Pokemon = require("./models/pokemon")
-const pokemon = require("./models/pokemon")
 const reactViews = require('express-react-views')
 const mongoose = require("mongoose")
+const pokemonSeed = require("./data/pokemonSeed");
+let useDb = false;
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-mongoose.connection.once("open", () => {
-    console.log("connected to mongo")
-})
 
+mongoose
+    .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        useDb = true;
+        console.log("connected to mongo");
+    })
+    .catch(() => {
+        useDb = false;
+        console.log("Mongo not connected, using seed data instead.");
+    });
 app.set("view engine", "jsx")
 app.engine("jsx", require("express-react-views").createEngine())
 
@@ -30,17 +34,7 @@ app.get("/", (req, res) => {
 });
 
 
-app.get("/pokemon", (req, res) => {
-    Pokemon.find({}, (error, allPokemon) => {
-        if (!error) {
-            res.status(200).render("Index", {
-                pokemon: allPokemon
-            })
-        } else {
-            res.status(400).send(error)
-        }
-    })
-})
+
 
 
 app.get("/pokemon/new", (req, res) => {
@@ -63,18 +57,28 @@ app.post("/pokemon", (req, res) => {
 
 
 app.get("/pokemon/:id", (req, res) => {
-    Pokemon.findById(req.params.id, (error, foundeachMon) => {
-        if (!error) {
-            res.status(200).render('Show', {
-                pokemon: foundeachMon
-            })
-        } else {
-            res.status(400).send(error)
-        }
-    })
-})
+  if (!useDb) {
+    const pokemonIndex = Number(req.params.id);
+    const selectedPokemon = pokemonSeed[pokemonIndex];
 
-app.listen(PORT, ()=>{
-    console.log(`Listening on port: ${PORT}`)
+    if (!selectedPokemon) {
+      return res.status(404).send("Pokemon not found");
+    }
+
+    return res.render("Show", { pokemon: selectedPokemon });
+  }
+
+  Pokemon.findById(req.params.id, (error, foundPokemon) => {
+    if (!error && foundPokemon) {
+      res.render("Show", { pokemon: foundPokemon });
+    } else {
+      res.status(404).send("Pokemon not found");
+    }
+  });
+});
+
+
+app.listen(PORT, () => {
+  console.log(`Listening on port: ${PORT}`);
 });
 

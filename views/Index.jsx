@@ -19,7 +19,7 @@ class Index extends React.Component {
                             let nomekopName = nomekop.name
                             return (
                                 <ul key = {i}>
-                                <a href={`/pokemon/${nomekop._id}`}>{nomekop.name[0].toUpperCase() + nomekop.name.slice(1)}</a>
+                                <a href={`/pokemon/${i}`}>{nomekop.name[0].toUpperCase() + nomekop.name.slice(1)}</a>
                                 <br />
                             </ul>
                             )
